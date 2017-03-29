@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'HttpSupportSpec'
+  s.name             = 'DDHttpSupport'
   s.version          = '1.0.0'
   s.summary          = 'HttpSupport of AFNetwork and HttpClient'
 

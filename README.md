@@ -17,12 +17,12 @@ HttpSupportSpec is available through [CocoaPods](http://cocoapods.org). To insta
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "HttpSupportSpec"
+pod "DDHttpSupport"
 ```
 
 ## Author
 
-DDStrongman, lishengshu@xinxindai.com
+DDStrongman, lishengshu232@gmail.com
 
 ## License
 

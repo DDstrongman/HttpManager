@@ -1,0 +1,12 @@
+use_frameworks!
+
+target 'HttpSupportSpec_Example' do
+  pod 'HttpSupportSpec', :path => '../'
+
+  target 'HttpSupportSpec_Tests' do
+    inherit! :search_paths
+
+    pod 'Kiwi'
+  pod 'FBSnapshotTestCase'
+  end
+end

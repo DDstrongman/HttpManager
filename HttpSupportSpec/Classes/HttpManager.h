@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AFNetworking/AFNetworking.h>
+#import <AFNetworking.h>
 
 /**
  *  Handler处理成功时调用的Block

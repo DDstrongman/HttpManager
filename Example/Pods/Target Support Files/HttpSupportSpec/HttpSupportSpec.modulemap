@@ -1,0 +1,6 @@
+framework module HttpSupportSpec {
+  umbrella header "HttpSupportSpec-umbrella.h"
+
+  export *
+  module * { export * }
+}

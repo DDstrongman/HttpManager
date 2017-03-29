@@ -1,0 +1,26 @@
+PODS:
+  - FBSnapshotTestCase (2.1.4):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
+  - FBSnapshotTestCase/Core (2.1.4)
+  - FBSnapshotTestCase/SwiftSupport (2.1.4):
+    - FBSnapshotTestCase/Core
+  - HttpSupportSpec (0.1.0)
+  - Kiwi (2.4.0)
+
+DEPENDENCIES:
+  - FBSnapshotTestCase
+  - HttpSupportSpec (from `../`)
+  - Kiwi
+
+EXTERNAL SOURCES:
+  HttpSupportSpec:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
+  HttpSupportSpec: 8963a28eac9c638fb81a5e2e7971ba38e88f85fa
+  Kiwi: f49c9d54b28917df5928fe44968a39ed198cb8a8
+
+PODFILE CHECKSUM: 580cdb7695ce26b49564df64dc4c45c714b3fcd3
+
+COCOAPODS: 1.2.0

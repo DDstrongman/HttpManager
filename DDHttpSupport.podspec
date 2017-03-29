@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DDHttpSupport'
-  s.version          = '1.0.0'
+  s.version          = '1.0.2'
   s.summary          = 'HttpSupport of AFNetwork and HttpClient'
 
 # This description is used to generate tags and improve search results.
@@ -21,11 +21,11 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/DDStrongman/HttpSupportSpec'
+  s.homepage         = 'https://github.com/DDstrongman/HttpManager'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'DDStrongman' => 'lishengshu232@gmail.com' }
-  s.source           = { :git => 'https://github.com/DDStrongman/HttpSupportSpec.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/DDstrongman/HttpManager.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'

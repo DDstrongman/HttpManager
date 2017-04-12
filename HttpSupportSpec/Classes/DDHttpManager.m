@@ -10,8 +10,8 @@
 
 @implementation DDHttpManager
 
-+ (HttpManager *) ShareInstance {
-    static HttpManager *sharedHttpManagerInstance = nil;
++ (DDHttpManager *) ShareInstance {
+    static DDHttpManager *sharedHttpManagerInstance = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         sharedHttpManagerInstance = [[self alloc] init];

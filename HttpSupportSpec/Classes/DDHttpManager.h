@@ -18,9 +18,9 @@ typedef void (^SuccessBlock)(id obj);
  */
 typedef void (^FailedBlock)(id obj);
 
-@interface HttpManager : NSObject
+@interface DDHttpManager : NSObject
 
-+ (HttpManager *)ShareInstance;
++ (DDHttpManager *)ShareInstance;
 #pragma afnetwork Get
 - (void)AFNetGETSupport:(NSString *)url Parameters:(NSDictionary *)dic SucessBlock:(void (^)(id))success FailedBlock:(void (^)(NSError *))failure;
 #pragma afnetwork Post

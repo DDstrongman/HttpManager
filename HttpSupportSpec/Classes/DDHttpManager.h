@@ -1,5 +1,5 @@
 //
-//  HttpManager.h
+//  DDHttpManager.h
 //  ResultContained
 //
 //  Created by 李胜书 on 15/8/21.

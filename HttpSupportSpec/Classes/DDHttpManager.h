@@ -16,15 +16,6 @@ typedef enum {
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFNetworking.h>
 
-/**
- *  Handler处理成功时调用的Block
- */
-typedef void (^SuccessBlock)(id obj);
-/**
- *  Handler处理失败时调用的Block
- */
-typedef void (^FailedBlock)(id obj);
-
 @interface DDHttpManager : NSObject
 
 /**

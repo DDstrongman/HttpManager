@@ -20,19 +20,18 @@
 }
 #pragma mark - methods
 - (void)commonHeadersForHttp:(AFHTTPSessionManager *)manager {
-    if (self.commonHeader) {
-        manager.requestSerializer = [AFHTTPRequestSerializer new];
-        [[self.commonHeader allKeys] enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [manager.requestSerializer setValue:self.commonHeader[obj] forHTTPHeaderField:obj];
+    if (_commonHeader) {
+        [[_commonHeader allKeys] enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [manager.requestSerializer setValue:_commonHeader[obj] forHTTPHeaderField:obj];
         }];
     }
 }
 
-- (void)AFNetGETSupport:(NSString *)url
-             Parameters:(NSDictionary *)dic
-                 Method:(DDHttpMethodType)method
-            SucessBlock:(void (^)(id))success
-            FailedBlock:(void (^)(NSError *))failure {
+- (void)AFNetMethodsSupport:(NSString *)url
+                 Parameters:(NSDictionary *)dic
+                     Method:(DDHttpMethodType)method
+                SucessBlock:(void (^)(id))success
+                FailedBlock:(void (^)(NSError *))failure {
     [self AFNetMethodsSupport:url
                    Parameters:dic
                        Method:method
@@ -48,15 +47,14 @@
                 SucessBlock:(void (^)(id))success
                 FailedBlock:(void (^)(NSError *))failure {
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
     [self commonHeadersForHttp:session];
     [self addHttpHeader:header
               AFManager:session];
     
-    session.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
     [session.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
     
-    session.requestSerializer = [AFHTTPRequestSerializer serializer];
     session.requestSerializer.timeoutInterval = 60;
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     

@@ -5,6 +5,13 @@
 //  Created by 李胜书 on 15/8/21.
 //  Copyright (c) 2015年 李胜书. All rights reserved.
 //
+typedef enum {
+    DDHttpGet = 0,
+    DDHttpPost,
+    DDHttpPut,
+    DDHttpPatch,
+    DDHttpDelete
+}DDHttpMethodType;
 
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFNetworking.h>
@@ -27,37 +34,41 @@ typedef void (^FailedBlock)(id obj);
 @property (nonatomic, strong) NSDictionary *commonHeader;
 
 + (DDHttpManager *)ShareInstance;
-#pragma afnetwork Get
+#pragma afnetwork Get,Post(仅限不包含bodyblock的情况下，一般情况下为上传文件的时候需要bodyblock),Put,Patch,Delete
 /**
- 发起get的http访问，异步
-
- @param url 访问的url
- @param dic 访问的参数字典
- @param success 成功后的处理block
- @param failure 失败后的处理block
- */
-- (void)AFNetGETSupport:(NSString *)url
-             Parameters:(NSDictionary *)dic
-            SucessBlock:(void (^)(id))success
-            FailedBlock:(void (^)(NSError *))failure;
-/**
- 发起get的http访问，异步
+ 发起所有方式的http访问，不新增头参数，请注意，POST方法仅限不需要bodyblock的情况下使用
  
  @param url 访问的url
  @param dic 访问的参数字典
+ @param method 使用方法的type
+ @param success 成功后的处理block
+ @param failure 失败后的处理block
+ */
+- (void)AFNetMethodsSupport:(NSString *)url
+                 Parameters:(NSDictionary *)dic
+                     Method:(DDHttpMethodType)method
+                SucessBlock:(void (^)(id))success
+                FailedBlock:(void (^)(NSError *))failure;
+/**
+ 发起所有方式的http访问，新增头参数，请注意，POST方法仅限不需要bodyblock的情况下使用
+ 
+ @param url 访问的url
+ @param dic 访问的参数字典
+ @param method 使用方法的type
  @param header 新增http头的参数字典
  @param success 成功后的处理block
  @param failure 失败后的处理block
  */
-- (void)AFNetGETSupport:(NSString *)url
-             Parameters:(NSDictionary *)dic
-              HeaderDic:(NSDictionary *)header
-            SucessBlock:(void (^)(id))success
-            FailedBlock:(void (^)(NSError *))failure;
-#pragma afnetwork Post
+- (void)AFNetMethodsSupport:(NSString *)url
+                 Parameters:(NSDictionary *)dic
+                     Method:(DDHttpMethodType)method
+                  HeaderDic:(NSDictionary *)header
+                SucessBlock:(void (^)(id))success
+                FailedBlock:(void (^)(NSError *))failure;
+#pragma afnetwork Post(包含bodyblock的情况下，一般情况下为上传文件的时候需要bodyblock)
 /**
  发起post的http访问，muldata传输参数，即表单提交的方式
-
+ 
  @param url http路径，string格式
  @param dic 参数字典
  @param bodyblock 过程中的处理block
@@ -88,7 +99,7 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
 
 /**
  因为afnetwork默认用muldata的格式传输，所以改传输方式
-
+ 
  @param url     http路径，string格式
  @param dic     参数字典
  @param success 成功后回调block

@@ -30,20 +30,23 @@
 
 - (void)AFNetGETSupport:(NSString *)url
              Parameters:(NSDictionary *)dic
+                 Method:(DDHttpMethodType)method
             SucessBlock:(void (^)(id))success
             FailedBlock:(void (^)(NSError *))failure {
-    [self AFNetGETSupport:url
-               Parameters:dic
-                HeaderDic:nil
-              SucessBlock:success
-              FailedBlock:failure];
+    [self AFNetMethodsSupport:url
+                   Parameters:dic
+                       Method:method
+                    HeaderDic:nil
+                  SucessBlock:success
+                  FailedBlock:failure];
 }
 
-- (void)AFNetGETSupport:(NSString *)url
-             Parameters:(NSDictionary *)dic
-              HeaderDic:(NSDictionary *)header
-            SucessBlock:(void (^)(id))success
-            FailedBlock:(void (^)(NSError *))failure {
+- (void)AFNetMethodsSupport:(NSString *)url
+                 Parameters:(NSDictionary *)dic
+                     Method:(DDHttpMethodType)method
+                  HeaderDic:(NSDictionary *)header
+                SucessBlock:(void (^)(id))success
+                FailedBlock:(void (^)(NSError *))failure {
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     [self commonHeadersForHttp:session];
     [self addHttpHeader:header
@@ -57,19 +60,102 @@
     session.requestSerializer.timeoutInterval = 60;
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    [session GET:url
-      parameters:dic
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if (success) {
-                 success(responseObject);
-             }
-         }
-         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             if (failure) {
-                 failure(error);
-             }
-         }];
+    switch (method) {
+        case DDHttpGet: {
+            [session GET:url
+              parameters:dic
+                progress:nil
+                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                     if (success) {
+                         success(responseObject);
+                     }
+                 }
+                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                     if (failure) {
+                         failure(error);
+                     }
+                 }];
+        }
+            break;
+        case DDHttpPost: {
+            [session POST:url
+               parameters:dic
+                 progress:nil
+                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                      if (success) {
+                          success(responseObject);
+                      }
+                  }
+                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                      if (failure) {
+                          failure(error);
+                      }
+                  }];
+        }
+            break;
+        case DDHttpPut: {
+            [session PUT:url
+              parameters:dic
+                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                     if (success) {
+                         success(responseObject);
+                     }
+                 }
+                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                     if (failure) {
+                         failure(error);
+                     }
+                 }];
+        }
+            break;
+        case DDHttpPatch: {
+            [session PATCH:url
+                parameters:dic
+                   success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                       if (success) {
+                           success(responseObject);
+                       }
+                   }
+                   failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                       if (failure) {
+                           failure(error);
+                       }
+                   }];
+        }
+            break;
+        case DDHttpDelete: {
+            [session DELETE:url
+                 parameters:dic
+                    success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                        if (success) {
+                            success(responseObject);
+                        }
+                    }
+                    failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                        if (failure) {
+                            failure(error);
+                        }
+                    }];
+        }
+            break;
+            
+        default: {
+            [session GET:url
+              parameters:dic
+                progress:nil
+                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                     if (success) {
+                         success(responseObject);
+                     }
+                 }
+                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                     if (failure) {
+                         failure(error);
+                     }
+                 }];
+        }
+            break;
+    }
 }
 #pragma 没有加入progressBlock,需要过程中处理的话加入progressBlock
 - (void)AFNetPOSTSupport:(NSString *)url
@@ -109,15 +195,20 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
         url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     }
     
-    [session POST:url parameters:dic constructingBodyWithBlock:bodyblock progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if (success) {
-            success(responseObject);
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (failure) {
-            failure(error);
-        }
-    }];
+    [session POST:url
+       parameters:dic
+constructingBodyWithBlock:bodyblock
+         progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+              if (success) {
+                  success(responseObject);
+              }
+          }
+          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              if (failure) {
+                  failure(error);
+              }
+          }];
 }
 #pragma mark - 因为afnetwork默认用muldata的格式传输，所以改传输方式
 - (void)AFNetUrlPOSTSupport:(NSString *)url
@@ -142,16 +233,19 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
     manager.responseSerializer = responseSerializer;
     [manager.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
     
-    NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:formRequest uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse *_Nonnull response,id _Nullable responseObject,NSError *_Nullable error) {
-        if(error) {
-            if (failure) {
-                failure(error);
-            }
-        }
-        if (responseObject && success) {
-            success(responseObject);
-        }
-    }];
+    NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:formRequest
+                                                   uploadProgress:nil
+                                                 downloadProgress:nil
+                                                completionHandler:^(NSURLResponse *_Nonnull response,id _Nullable responseObject,NSError *_Nullable error) {
+                                                    if(error) {
+                                                        if (failure) {
+                                                            failure(error);
+                                                        }
+                                                    }
+                                                    if (responseObject && success) {
+                                                        success(responseObject);
+                                                    }
+                                                }];
     
     [dataTask resume];
 }

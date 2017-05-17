@@ -30,11 +30,13 @@
 - (void)AFNetMethodsSupport:(NSString *)url
                  Parameters:(NSDictionary *)dic
                      Method:(DDHttpMethodType)method
+              RequestMethod:(DDRequestType)request
                 SucessBlock:(void (^)(id))success
                 FailedBlock:(void (^)(NSError *))failure {
     [self AFNetMethodsSupport:url
                    Parameters:dic
                        Method:method
+                RequestMethod:request
                     HeaderDic:nil
                   SucessBlock:success
                   FailedBlock:failure];
@@ -43,11 +45,13 @@
 - (void)AFNetMethodsSupport:(NSString *)url
                  Parameters:(NSDictionary *)dic
                      Method:(DDHttpMethodType)method
+              RequestMethod:(DDRequestType)request
                   HeaderDic:(NSDictionary *)header
                 SucessBlock:(void (^)(id))success
                 FailedBlock:(void (^)(NSError *))failure {
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
-    session.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
+    [self initRequestType:session RequestType:request];
     
     [self commonHeadersForHttp:session];
     [self addHttpHeader:header
@@ -55,7 +59,6 @@
     
     [session.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
     
-    session.requestSerializer.timeoutInterval = 60;
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     switch (method) {
@@ -158,12 +161,14 @@
 #pragma 没有加入progressBlock,需要过程中处理的话加入progressBlock
 - (void)AFNetPOSTSupport:(NSString *)url
               Parameters:(NSDictionary *)dic
+           RequestMethod:(DDRequestType)request
 ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
              SucessBlock:(void (^)(id))success
              FailedBlock:(void (^)(NSError *))failure {
     [self AFNetPOSTSupport:url
                 Parameters:dic
                     Header:nil
+             RequestMethod:request
  ConstructingBodyWithBlock:bodyblock
                SucessBlock:success
                FailedBlock:failure];
@@ -172,6 +177,7 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
 - (void)AFNetPOSTSupport:(NSString *)url
               Parameters:(NSDictionary *)dic
                   Header:(NSDictionary *)header
+           RequestMethod:(DDRequestType)request
 ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
              SucessBlock:(void (^)(id))success
              FailedBlock:(void (^)(NSError *))failure {
@@ -184,8 +190,7 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
     
     [session.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
     
-    session.requestSerializer = [AFHTTPRequestSerializer serializer];
-    session.requestSerializer.timeoutInterval = 60;
+    [self initRequestType:session RequestType:request];
     
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
         url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
@@ -273,6 +278,31 @@ constructingBodyWithBlock:bodyblock
                              forHTTPHeaderField:obj];
         }];
     }
+}
+
+/**
+ 统一设置request
+
+ @param session af的主体
+ @param request request的种类
+ */
+- (void)initRequestType:(AFHTTPSessionManager *)session RequestType:(DDRequestType)request {
+    switch (request) {
+        case DDRequestHttp:
+            session.requestSerializer = [AFHTTPRequestSerializer serializer];
+            break;
+        case DDRequestJson:
+            session.requestSerializer = [AFJSONRequestSerializer serializer];
+            break;
+        case DDRequestPlist:
+            session.requestSerializer = [AFPropertyListRequestSerializer serializer];
+            break;
+        default:
+            session.requestSerializer = [AFHTTPRequestSerializer serializer];
+            break;
+    }
+    
+    session.requestSerializer.timeoutInterval = 60;
 }
 
 @end

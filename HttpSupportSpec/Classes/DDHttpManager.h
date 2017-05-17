@@ -13,6 +13,12 @@ typedef enum {
     DDHttpDelete
 }DDHttpMethodType;
 
+typedef enum {
+    DDRequestHttp = 0,
+    DDRequestJson,
+    DDRequestPlist
+}DDRequestType;
+
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFNetworking.h>
 
@@ -32,12 +38,14 @@ typedef enum {
  @param url 访问的url
  @param dic 访问的参数字典
  @param method 使用方法的type
+ @param request http请求方法的type
  @param success 成功后的处理block
  @param failure 失败后的处理block
  */
 - (void)AFNetMethodsSupport:(NSString *)url
                  Parameters:(NSDictionary *)dic
                      Method:(DDHttpMethodType)method
+              RequestMethod:(DDRequestType)request
                 SucessBlock:(void (^)(id))success
                 FailedBlock:(void (^)(NSError *))failure;
 /**
@@ -46,6 +54,7 @@ typedef enum {
  @param url 访问的url
  @param dic 访问的参数字典
  @param method 使用方法的type
+ @param request http请求方法的type
  @param header 新增http头的参数字典
  @param success 成功后的处理block
  @param failure 失败后的处理block
@@ -53,6 +62,7 @@ typedef enum {
 - (void)AFNetMethodsSupport:(NSString *)url
                  Parameters:(NSDictionary *)dic
                      Method:(DDHttpMethodType)method
+              RequestMethod:(DDRequestType)request
                   HeaderDic:(NSDictionary *)header
                 SucessBlock:(void (^)(id))success
                 FailedBlock:(void (^)(NSError *))failure;
@@ -62,12 +72,14 @@ typedef enum {
  
  @param url http路径，string格式
  @param dic 参数字典
+ @param request http请求方法的type
  @param bodyblock 过程中的处理block
  @param success 成功后回调block
  @param failure 失败后的回调block
  */
 - (void)AFNetPOSTSupport:(NSString *)url
               Parameters:(NSDictionary *)dic
+           RequestMethod:(DDRequestType)request
 ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
              SucessBlock:(void (^)(id))success
              FailedBlock:(void (^)(NSError *))failure;
@@ -77,6 +89,7 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
  @param url http路径，string格式
  @param dic 参数字典
  @param header 新增http头的参数字典
+ @param request http请求方法的type
  @param bodyblock 过程中的处理block
  @param success 成功后回调block
  @param failure 失败后的回调block
@@ -84,6 +97,7 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
 - (void)AFNetPOSTSupport:(NSString *)url
               Parameters:(NSDictionary *)dic
                   Header:(NSDictionary *)header
+           RequestMethod:(DDRequestType)request
 ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
              SucessBlock:(void (^)(id))success
              FailedBlock:(void (^)(NSError *))failure;

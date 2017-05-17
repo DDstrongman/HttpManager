@@ -182,6 +182,9 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
              SucessBlock:(void (^)(id))success
              FailedBlock:(void (^)(NSError *))failure {
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    
+    [self initRequestType:session RequestType:request];
+    
     [self commonHeadersForHttp:session];
     [self addHttpHeader:header
               AFManager:session];
@@ -189,8 +192,6 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
     session.responseSerializer = [AFHTTPResponseSerializer serializer];
     
     [session.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
-    
-    [self initRequestType:session RequestType:request];
     
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
         url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];

@@ -57,6 +57,7 @@
     [self addHttpHeader:header
               AFManager:session];
     
+    
     [session.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
     
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -125,6 +126,7 @@
         }
             break;
         case DDHttpDelete: {
+            session.requestSerializer.HTTPMethodsEncodingParametersInURI = [NSSet setWithObjects:@"GET", @"HEAD", nil];
             [session DELETE:url
                  parameters:dic
                     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -182,7 +184,6 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
              SucessBlock:(void (^)(id))success
              FailedBlock:(void (^)(NSError *))failure {
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
-    
     [self initRequestType:session RequestType:request];
     
     [self commonHeadersForHttp:session];
@@ -192,6 +193,7 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
     session.responseSerializer = [AFHTTPResponseSerializer serializer];
     
     [session.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
+    
     
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
         url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];

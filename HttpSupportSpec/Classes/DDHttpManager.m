@@ -8,6 +8,9 @@
 
 #import "DDHttpManager.h"
 
+#define DDWS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+#define DDSS(strongSelf)  __strong __typeof(weakSelf)strongSelf = weakSelf;
+
 @implementation DDHttpManager
 
 + (DDHttpManager *) ShareInstance {
@@ -21,8 +24,8 @@
 #pragma mark - methods
 - (void)commonHeadersForHttp:(AFHTTPSessionManager *)manager {
     if (_commonHeader) {
-        [[_commonHeader allKeys] enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [manager.requestSerializer setValue:_commonHeader[obj] forHTTPHeaderField:obj];
+        [_commonHeader enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL * _Nonnull stop) {
+            [manager.requestSerializer setValue:obj forHTTPHeaderField:key];
         }];
     }
 }

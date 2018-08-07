@@ -1,13 +1,33 @@
 # HttpSupportSpec
 
-[![CI Status](http://img.shields.io/travis/DDStrongman/HttpSupportSpec.svg?style=flat)](https://travis-ci.org/DDStrongman/HttpSupportSpec)
-[![Version](https://img.shields.io/cocoapods/v/HttpSupportSpec.svg?style=flat)](http://cocoapods.org/pods/HttpSupportSpec)
-[![License](https://img.shields.io/cocoapods/l/HttpSupportSpec.svg?style=flat)](http://cocoapods.org/pods/HttpSupportSpec)
-[![Platform](https://img.shields.io/cocoapods/p/HttpSupportSpec.svg?style=flat)](http://cocoapods.org/pods/HttpSupportSpec)
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+对于AFNetwork http请求所有方法的封装，同时增加了YYCache的缓存策略缓存URL的返回（post上传方法均不缓存）<br>
+**只需设置url，必要参数，成功的处理Block和失败的处理Block，即可操作并缓存http，详细使用方法请参考.h文件，好用请给star，不好用欢迎提建议～**<br>
+栗子时间：<br>
+```
+/**
+发起所有方式的http访问，新增头参数，请注意，POST方法仅限不需要bodyblock的情况下使用
+
+@param url 访问的url
+@param dic 访问的参数字典
+@param method 使用方法的type
+@param request http请求方法的type
+@param cache http缓存策略
+@param header 新增http头的参数字典
+@param success 成功后的处理block
+@param failure 失败后的处理block
+*/
+- (void)AFNetMethodsSupport:(NSString *)url
+                 Parameters:(NSDictionary *)dic
+                 Method:(DDHttpMethodType)method
+          RequestMethod:(DDRequestType)request
+            CacheMethod:(DDHttpCacheMethod)cache
+              HeaderDic:(NSDictionary *)header
+            SucessBlock:(void (^)(id))success
+            FailedBlock:(void (^)(NSError *))failure
+```
 
 ## Requirements
 

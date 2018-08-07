@@ -4,7 +4,7 @@
 ## Example
 
 对于AFNetwork http请求所有方法的封装，同时增加了YYCache的缓存策略缓存URL的返回（post上传方法均不缓存）<br>
-**只需设置url，必要参数，成功的处理Block和失败的处理Block，即可操作并缓存http，详细使用方法请参考.h文件，好用请给star，不好用欢迎提建议～**<br>
+**一行代码，只需设置url，必要参数，成功的处理Block和失败的处理Block，即可操作并缓存http，详细使用方法请参考.h文件，好用请给star，不好用欢迎提建议～**<br>
 栗子时间：<br>
 ```
 /**

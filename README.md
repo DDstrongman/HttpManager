@@ -21,12 +21,12 @@
 */
 - (void)AFNetMethodsSupport:(NSString *)url
                  Parameters:(NSDictionary *)dic
-                 Method:(DDHttpMethodType)method
-          RequestMethod:(DDRequestType)request
-            CacheMethod:(DDHttpCacheMethod)cache
-              HeaderDic:(NSDictionary *)header
-            SucessBlock:(void (^)(id))success
-            FailedBlock:(void (^)(NSError *))failure
+                     Method:(DDHttpMethodType)method
+              RequestMethod:(DDRequestType)request
+                CacheMethod:(DDHttpCacheMethod)cache
+                  HeaderDic:(NSDictionary *)header
+                SucessBlock:(void (^)(id))success
+                FailedBlock:(void (^)(NSError *))failure
 ```
 
 ## Requirements

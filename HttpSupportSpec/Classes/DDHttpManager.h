@@ -21,14 +21,14 @@ typedef enum {
 }DDRequestType;
 
 typedef enum {
+    ///只在使用http访问数据，并会更新或新建本地缓存，多用于实时性要求较多的环境
+    DDHttpOnly = 0,
     ///有缓存只用缓存数据，没有则去http请求并在之后更新数据和本地缓存，默认采用此策略
-    DDCacheElseHttp = 0,
+    DDCacheElseHttp,
     ///有缓存优先用缓存数据，同时去http请求并在之后更新数据和本地缓存
     DDCacheThenHttp,
     ///只在缓存里找，没有缓存则返回空，多用于无网环境或省流量
-    DDCacheMemoryOnly,
-    ///只在使用http访问数据，并会更新或新建本地缓存，多用于实时性要求较多的环境
-    DDHttpOnly
+    DDCacheMemoryOnly
 }DDHttpCacheMethod;
 
 #import <Foundation/Foundation.h>

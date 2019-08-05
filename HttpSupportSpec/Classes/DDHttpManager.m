@@ -157,7 +157,7 @@
         
         session.responseSerializer = [AFHTTPResponseSerializer serializer];
         [session.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
-        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         DDWS(weakSelf)
         switch (method) {
             case DDHttpGet: {
@@ -298,11 +298,11 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
     [session.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
     
     
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
-        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    }else {
-        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    }
+//    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
+//        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+//    }else {
+//        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    }
     [session POST:url
        parameters:dic
 constructingBodyWithBlock:bodyblock
@@ -323,11 +323,11 @@ constructingBodyWithBlock:bodyblock
                  Parameters:(NSDictionary *)dic
                 SucessBlock:(void (^)(id))success
                 FailedBlock:(void (^)(NSError *))failure {
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
-        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    }else {
-        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    }
+//    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
+//        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+//    }else {
+//        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    }
     NSMutableURLRequest *formRequest = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST"
                                                                                      URLString:url
                                                                                     parameters:dic

@@ -33,6 +33,7 @@
 #pragma mark - methods
 - (void)commonHeadersForHttp:(AFHTTPSessionManager *)manager {
     if (_commonHeader) {
+        [manager.requestSerializer clearAuthorizationHeader];
         [_commonHeader enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL * _Nonnull stop) {
             [manager.requestSerializer setValue:obj forHTTPHeaderField:key];
         }];

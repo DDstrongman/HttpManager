@@ -164,6 +164,7 @@
             case DDHttpGet: {
                 [session GET:url
                   parameters:dic
+                     headers:@{}
                     progress:nil
                      success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                          DDSS(strongSelf)
@@ -181,6 +182,7 @@
             case DDHttpPost: {
                 [session POST:url
                    parameters:dic
+                      headers:@{}
                      progress:nil
                       success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                           DDSS(strongSelf)
@@ -198,6 +200,7 @@
             case DDHttpPut: {
                 [session PUT:url
                   parameters:dic
+                     headers:@{}
                      success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                          DDSS(strongSelf)
                          [strongSelf handleSucessBlock:success
@@ -214,6 +217,7 @@
             case DDHttpPatch: {
                 [session PATCH:url
                     parameters:dic
+                       headers:@{}
                        success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                            DDSS(strongSelf)
                            [strongSelf handleSucessBlock:success
@@ -231,6 +235,7 @@
                 session.requestSerializer.HTTPMethodsEncodingParametersInURI = [NSSet setWithObjects:@"GET", @"HEAD", nil];
                 [session DELETE:url
                      parameters:dic
+                        headers:@{}
                         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                             DDSS(strongSelf)
                             [strongSelf handleSucessBlock:success
@@ -247,6 +252,7 @@
             default: {
                 [session GET:url
                   parameters:dic
+                     headers:@{}
                     progress:nil
                      success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                          DDSS(strongSelf)
@@ -306,6 +312,7 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
 //    }
     [session POST:url
        parameters:dic
+          headers:@{}
 constructingBodyWithBlock:bodyblock
          progress:nil
           success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

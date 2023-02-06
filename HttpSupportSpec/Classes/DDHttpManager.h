@@ -45,6 +45,14 @@ typedef enum {
  默认采用的缓存模式，不设置则默认DDCacheElseHttp
  */
 @property (nonatomic, assign) DDHttpCacheMethod cacheMethod;
+/**
+ 默认采用单例，no，不使用，yes，使用
+ */
+@property (nonatomic, assign) BOOL notUseSingleton;
+/**
+ 默认采用单例
+ */
+@property (nonatomic, assign) AFHTTPSessionManager *shareManager;
 
 /**
  单实例化

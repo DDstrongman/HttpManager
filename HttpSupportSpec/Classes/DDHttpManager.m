@@ -148,7 +148,17 @@
         }
     }
     if (needHttp) {
-        AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+        
+        AFHTTPSessionManager *session;
+        if (_notUseSingleton) {
+            session = [AFHTTPSessionManager manager];
+        } else {
+            if (!_shareManager) {
+                _shareManager = [AFHTTPSessionManager manager];
+            }
+            session = _shareManager;
+        }
+        
         
         [self initRequestType:session
                   RequestType:request];

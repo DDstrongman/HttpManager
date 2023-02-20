@@ -46,7 +46,7 @@ typedef enum {
  */
 @property (nonatomic, assign) DDHttpCacheMethod cacheMethod;
 /**
- 默认采用单例，no，不使用，yes，使用
+ 默认采用单例，no，使用，yes，不使用
  */
 @property (nonatomic, assign) BOOL notUseSingleton;
 /**
@@ -60,7 +60,7 @@ typedef enum {
  @return 返回单实例
  */
 + (DDHttpManager *)ShareInstance;
-#pragma mark - afnetwork Get,Post(仅限不包含bodyblock的情况下，一般情况下为上传文件的时候需要bodyblock),Put,Patch,Delete,此块http有缓存
+#pragma mark - ********** afnetwork 通用方法封装,此块http可选缓存 **********
 /**
  发起所有方式的http访问，不新增头参数，请注意，POST方法仅限不需要bodyblock的情况下使用
  
@@ -133,7 +133,7 @@ typedef enum {
                   HeaderDic:(NSDictionary *)header
                 SucessBlock:(void (^)(id))success
                 FailedBlock:(void (^)(NSError *))failure;
-#pragma mark - afnetwork Post(包含bodyblock的情况下，一般情况下为上传文件的时候需要bodyblock，此块http没有缓存)
+#pragma mark - ********** other methods(以下都是为了满足后端奇怪的传输需求的特异方法，正常请使用通用方法) **********
 /**
  发起post的http访问，muldata传输参数，即表单提交的方式
  

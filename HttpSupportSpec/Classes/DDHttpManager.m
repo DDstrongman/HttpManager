@@ -102,12 +102,9 @@
     BOOL needCache = NO;
     switch (cache) {
         case DDCacheElseHttp: {
-            if (!httpCache) {
-                httpCache = [[YYCache alloc]initWithName:DDHttpCacheName];
-            }
             if ([httpCache containsObjectForKey:url]) {
                 needCache = YES;
-            }else {
+            } else {
                 needHttp = YES;
             }
         }
@@ -126,12 +123,9 @@
         }
             break;
         default: {
-            if (!httpCache) {
-                httpCache = [[YYCache alloc]initWithName:DDHttpCacheName];
-            }
             if ([httpCache containsObjectForKey:url]) {
                 needCache = YES;
-            }else {
+            } else {
                 needHttp = YES;
             }
         }
@@ -145,10 +139,13 @@
             [self handleSucessBlock:success
                            BlockObj:[httpCache objectForKey:url]
                                 Url:url];
+        } else {
+            if (failure) {
+                failure(NSLocalizedString(@"No result", @""));
+            }
         }
     }
     if (needHttp) {
-        
         AFHTTPSessionManager *session;
         if (_notUseSingleton) {
             session = [AFHTTPSessionManager manager];
@@ -280,7 +277,7 @@
         }
     }
 }
-#pragma mark - 没有加入progressBlock,需要过程中处理的话加入progressBlock
+#pragma mark - ********** other methods(以下都是为了满足后端奇怪的传输需求的特异方法，正常请使用通用方法) **********
 - (void)AFNetPOSTSupport:(NSString *)url
               Parameters:(NSDictionary *)dic
            RequestMethod:(DDRequestType)request
@@ -314,12 +311,6 @@ ConstructingBodyWithBlock:(void(^)(id<AFMultipartFormData> formData))bodyblock
     
     [session.responseSerializer.acceptableContentTypes setByAddingObject:@"text/html"];
     
-    
-//    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
-//        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-//    }else {
-//        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    }
     [session POST:url
        parameters:dic
           headers:@{}
@@ -341,11 +332,6 @@ constructingBodyWithBlock:bodyblock
                  Parameters:(NSDictionary *)dic
                 SucessBlock:(void (^)(id))success
                 FailedBlock:(void (^)(NSError *))failure {
-//    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
-//        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-//    }else {
-//        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    }
     NSMutableURLRequest *formRequest = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST"
                                                                                      URLString:url
                                                                                     parameters:dic
@@ -375,17 +361,7 @@ constructingBodyWithBlock:bodyblock
     
     [dataTask resume];
 }
-#pragma mark - support methods
-- (NSString *)gettime {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    //设定时间格式,这里可以设置成自己需要的格式
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH-mm-ss"];
-    NSString *currentDateStr = [dateFormatter stringFromDate:[NSDate date]];
-    NSString *strUrl = [currentDateStr stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    NSString *newDate = [strUrl substringToIndex:8];
-    return newDate;
-}
-
+#pragma mark - ********** private methods **********
 /**
  新增AFNetwork设置http的头
  
